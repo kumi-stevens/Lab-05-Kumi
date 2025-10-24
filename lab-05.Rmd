@@ -1,6 +1,6 @@
 ---
 title: "Lab 06 - Take a sad plot and make it better"
-author: "User1, User2, User3 and User4 - Team Name"
+author: "Kumi - Mean Square Dream"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -22,9 +22,10 @@ knitr::include_graphics("img/Speaking-the-world.jpg")
 ```
 
 _Write your comments about image 1 below_
-
-
-
+#There are axis so it is hard to see the comparitive sizes of the groups.
+#It is lacking information on what 'spoken language' means
+#the parts with speech bubbles are different colours but have no meaning.
+#but is fun
 
 
 ## Image 2
@@ -34,7 +35,7 @@ knitr::include_graphics("img/rose-pop-density-total-area-bw.jpg")
 ```
 
 _Write your comments about image 2 below_
-
+#it  is quite confusing, as i am not sure what each variable is represented by, is the population the proportion of the whole, or the radius?
 
 
 
@@ -45,7 +46,7 @@ knitr::include_graphics("img/life-expectancy-rule-of-law.png")
 ```
 
 _Write your comments about image 3 below_
-
+#The visualisation is very confused, it is hard to tell what each point represents, what the size means or what the x-axis means?
 
 
 
@@ -56,7 +57,7 @@ knitr::include_graphics("img/global-income-dist.PNG")
 ```
 
 _Write your comments about image 4 below_
-
+#very pretty, easy to see each country, but some of the data is obsrtucted/ it is not clear what for exapmle 'india' does after it disppears behing the others categories.
 
 
 
@@ -72,36 +73,44 @@ staff <- read_csv("data/instructional-staff.csv")
 
 What is the difference between *wide format* data and *long format* data?
 
+#long format has every row as a unique case
+#wide format has the observations as rows
 
 Is the format `staff` data *wide* or *long*?
 
 
 How many observations are there in the data set?
 
-
-
+view(staff)
+#there are 11 observations
 
 ## Exercise 2
 
 ```{r pivoting}
 ## Uncomment and complete the following code
 
-#staff_long <- ___ %>%
-#  ___(
-#    cols = ____, 
-#    names_to = "_____",
-#    values_to = "percent"
-#    )
+staff_long <- staff %>%
+  pivot_longer(
+    cols = c("1975","1989","1993","1995","1999","2001","2003","2005","2007","2009","2011"),
+    names_to = "year",
+    values_to = "percent"
+    )
 
 ```
-
-
 ## Exercise 3
+
+
+
+
 
 ```{r dot-plot}
 # Write your code for Exercise 3 here
 
-
+ggplot(data = staff_long,
+       mapping = aes(x = year, 
+                     y = percent, 
+                     colour = faculty_type)) +
+  geom_point()
 
 ```
 
@@ -109,9 +118,13 @@ How many observations are there in the data set?
 
 ```{r bad-line-plot}
 # Write your code for Exercise 4 here
+ggplot(data = staff_long,
+       mapping = aes(x = year, 
+                     y = percent, 
+                     colour = faculty_type)) +
+  geom_line()
 
-
-
+# the problem here is htat each group only has one observation?
 ```
 
 ## Exercise 5
@@ -119,15 +132,19 @@ How many observations are there in the data set?
 ```{r mutate-year}
 ## Uncomment and complete the following code
 
-#staff_long <- staff_long %>%
-#  mutate(year = ______(year))
-```
+staff_long <- staff_long %>%
+  mutate(year = as.numeric(year))
+#`````````
 
 
-```{r working-line-plot}
+#```{r working-line-plot}
 # Write your code for Exercise 5 here
 
-
+ggplot(data = staff_long,
+       mapping = aes(x = year, 
+                     y = percent, 
+                     colour = faculty_type)) +
+  geom_line()
 
 ```
 
@@ -135,7 +152,15 @@ How many observations are there in the data set?
 
 ```{r better-line-plot}
 # Write your code for Exercise 6 here
-
+ggplot(data = staff_long,
+       mapping = aes(x = year, 
+                     y = percent, 
+                     colour = faculty_type)) +
+  geom_line() +
+  labs(x = "Year",
+       y = "Percentage of staff",
+       title = "A graph to show how the percentage of staff employed in each faculty type has changed over time.",
+       legend = "Faculty Type")
 
 
 
