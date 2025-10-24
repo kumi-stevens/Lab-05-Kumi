@@ -159,9 +159,7 @@ ggplot(data = staff_long,
   geom_line() +
   labs(x = "Year",
        y = "Percentage of staff",
-       title = "A graph to show how the percentage of staff employed in each faculty type has changed over time.",
-       legend = "Faculty Type")
-
+       title = "A graph to show how the percentage of staff employed in each faculty type has changed over time.")
 
 
 ```
@@ -170,9 +168,9 @@ ggplot(data = staff_long,
 
 _Write below your ideas for adapting the line plot_
 
-* Idea 1
-* Idea 2
-* Idea 3
+* make only the part time faculty a colour
+* group all other together
+* 
 * ...
 
 
